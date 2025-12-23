@@ -4,6 +4,8 @@
 ![Streamlit](https://img.shields.io/badge/Streamlit-App-ff4b4b)
 ![Status](https://img.shields.io/badge/Status-Completed-success)
 
+## Summary
+
 A content-based recommendation engine that suggests TED Talks based on the semantic similarity of their transcripts.
 
 This project was built to apply **Natural Language Processing (NLP)** techniques and mathematical vectorization to solve a real-world information retrieval problem.
