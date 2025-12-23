@@ -44,3 +44,42 @@ ted-talks-recommender/
 ├── app.py                 # Main application logic & UI
 ├── requirements.txt       # Project dependencies
 └── README.md              # Project documentation
+```
+
+## ⚡ How to Run Locally
+
+1.  **Clone the repository:**
+    ```bash
+    git clone [https://github.com/YOUR_USERNAME/ted-talks-recommender.git](https://github.com/YOUR_USERNAME/ted-talks-recommender.git)
+    cd ted-talks-recommender
+    ```
+
+2.  **Create a Virtual Environment:**
+    ```bash
+    python -m venv venv
+    source venv/bin/activate  # On Windows: venv\Scripts\activate
+    ```
+
+3.  **Install Dependencies:**
+    ```bash
+    pip install -r requirements.txt
+    ```
+
+4.  **Download Data:**
+    * Download the dataset from [Kaggle (TED Talks)](https://www.kaggle.com/datasets/rounakbanik/ted-talks).
+    * Create a folder named `data/` in the root directory.
+    * Place `ted_main.csv` and `transcripts.csv` inside that `data/` folder.
+
+5.  **Run the App:**
+    ```bash
+    streamlit run app.py
+    ```
+
+## 🔮 Future Improvements
+
+* Implement a hybrid approach combining content-based filtering with collaborative filtering.
+* Deploy the application to Streamlit Cloud or AWS.
+* Optimize the similarity search using approximate nearest neighbors (like Faiss) for larger datasets.
+
+---
+*Built with ❤️ by Nicolás Verdín Domínguez*
