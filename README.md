@@ -76,6 +76,7 @@ ted-talks-recommender/
     ```
 
 ### 🐳 Run with Docker (Recommended)
+
 You can run the application without installing Python or dependencies manually.
 
 1.  **Build the image:**
