@@ -75,6 +75,19 @@ ted-talks-recommender/
     streamlit run app.py
     ```
 
+### 🐳 Run with Docker (Recommended)
+You can run the application without installing Python or dependencies manually.
+
+1.  **Build the image:**
+    ```bash
+    docker build -t ted-recommender .
+    ```
+
+2.  **Run the container:**
+    ```bash
+    docker run -p 8501:8501 ted-recommender
+    ```
+
 ## 🔮 Future Improvements
 
 * Implement a hybrid approach combining content-based filtering with collaborative filtering.
