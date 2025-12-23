@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: ted-talks-recommender
+    env: docker
+    plan: free
+    region: frankfurt  # Closest to Spain
+    branch: main
+    healthCheckPath: /_stcore/health
+    
+    envVars:
+      - key: PORT
+        value: 8501
