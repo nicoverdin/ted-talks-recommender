@@ -23,3 +23,6 @@ jobs:
         context: .
         push: false
         tags: ted-recommender:latest
+
+    - name: Run Unit Tests
+      run: pytest
