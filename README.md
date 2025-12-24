@@ -1,5 +1,6 @@
 # 🎬 TED Talk Recommender System
 
+[![Docker Build CI](https://github.com/nicoverdin/ted-talks-recommender/actions/workflows/docker-build.yml/badge.svg)](https://github.com/nicoverdin/ted-talks-recommender/actions/workflows/docker-build.yml)
 ![Python](https://img.shields.io/badge/Python-3.9%2B-blue)
 ![Streamlit](https://img.shields.io/badge/Streamlit-App-ff4b4b)
 ![Status](https://img.shields.io/badge/Status-Completed-success)
