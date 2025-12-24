@@ -48,11 +48,11 @@ def main():
             selected_talk, title_to_index, tfidf_matrix, df
         )
 
-    for _, row in recommendations.iterrows():
-        with st.expander(f"{row['title']} (by {row['main_speaker']})"):
-            st.write(f"**Description:** {row['description']}")
-            st.caption(f"Tags: {row['tags']}")
-            st.caption(f"Link: {row['url']}")
+        for _, row in recommendations.iterrows():
+            with st.expander(f"{row['title']} (by {row['main_speaker']})"):
+                st.write(f"**Description:** {row['description']}")
+                st.caption(f"Tags: {row['tags']}")
+                st.caption(f"Link: {row['url']}")
 
 
 if __name__ == "__main__":
