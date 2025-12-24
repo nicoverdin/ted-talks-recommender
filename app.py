@@ -3,8 +3,6 @@ import pandas as pd
 from sklearn.metrics.pairwise import linear_kernel
 import scipy
 
-st.set_page_config(page_title="TED Talk Recommender", layout="wide")
-
 
 @st.cache_data
 def load_data():
@@ -14,18 +12,7 @@ def load_data():
     return df, indices, tfidf_matrix
 
 
-st.title("TED Talk Recommender Engine")
-st.markdown(
-    "Select a talk you enjoyed, and this AI will recommend 5 similar talks based on their content (transcript)."
-)
-
-with st.spinner("Loading data and training AI model..."):
-    df, title_to_index, tfidf_matrix = load_data()
-
-selected_talk = st.selectbox("Select a TED Talk:", df["title"].values)
-
-
-def get_recommendations(title):
+def get_recommendations(title, title_to_index, tfidf_matrix, df):
     if title not in title_to_index:
         return []
 
@@ -43,12 +30,30 @@ def get_recommendations(title):
     return df.iloc[talk_indices]
 
 
-if st.button("Get Recommendations"):
-    st.subheader(f"Because you liked '{selected_talk}':")
-    recommendations = get_recommendations(selected_talk)
+def main():
+    st.set_page_config(page_title="TED Talk Recommender", layout="wide")
+    st.title("TED Talk Recommender Engine")
+    st.markdown(
+        "Select a talk you enjoyed, and this AI will recommend 5 similar talks based on their content (transcript)."
+    )
+
+    with st.spinner("Loading data and training AI model..."):
+        df, title_to_index, tfidf_matrix = load_data()
+
+    selected_talk = st.selectbox("Select a TED Talk:", df["title"].values)
+
+    if st.button("Get Recommendations"):
+        st.subheader(f"Because you liked '{selected_talk}':")
+        recommendations = get_recommendations(
+            selected_talk, title_to_index, tfidf_matrix, df
+        )
 
     for _, row in recommendations.iterrows():
         with st.expander(f"{row['title']} (by {row['main_speaker']})"):
             st.write(f"**Description:** {row['description']}")
             st.caption(f"Tags: {row['tags']}")
             st.caption(f"Link: {row['url']}")
+
+
+if __name__ == "__main__":
+    main()

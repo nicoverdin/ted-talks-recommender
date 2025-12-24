@@ -4,35 +4,45 @@ import re
 import scipy.sparse
 
 
-# Load data
-print("Loading CSVs...")
-df_main = pd.read_csv("data/ted_main.csv")
-df_transcripts = pd.read_csv("data/transcripts.csv")
-df = pd.merge(left=df_main, right=df_transcripts, on="url", how="inner")
+def load_data():
+    df_main = pd.read_csv("data/ted_main.csv")
+    df_transcripts = pd.read_csv("data/transcripts.csv")
+    df = pd.merge(left=df_main, right=df_transcripts, on="url", how="inner")
 
-# Clean text
-print("Cleaning text...")
+    return df
 
 
 def clean_text(text):
     return re.sub(r"[^a-z\s]", " ", text.lower())
 
 
-df["clean_transcript"] = df["transcript"].apply(clean_text)
+def save_optimized_files(df_lite, tfidf_matrix):
+    df_lite.to_pickle("data/ted_lite.pkl")
 
-print("Generating TF-IDF Matrix...")
-tfidf = TfidfVectorizer(stop_words="english")
-tfidf_matrix = tfidf.fit_transform(df["clean_transcript"])
+    scipy.sparse.save_npz("data/tfidf_matrix.npz", tfidf_matrix)
 
-df_lite = df[["title", "main_speaker", "description", "tags", "url"]].copy()
+    indices = pd.Series(df_lite.index, index=df_lite["title"]).drop_duplicates()
+    indices.to_pickle("data/indices.pkl")
 
-print("Saving optimized files...")
 
-df_lite.to_pickle("data/ted_lite.pkl")
+def main():
+    print("Loading CSVs...")
+    df = load_data()
 
-scipy.sparse.save_npz("data/tfidf_matrix.npz", tfidf_matrix)
+    print("Cleaning text...")
+    df["clean_transcript"] = df["transcript"].apply(clean_text)
 
-indices = pd.Series(df_lite.index, index=df_lite["title"]).drop_duplicates()
-indices.to_pickle("data/indices.pkl")
+    print("Generating TF-IDF Matrix...")
+    tfidf = TfidfVectorizer(stop_words="english")
+    tfidf_matrix = tfidf.fit_transform(df["clean_transcript"])
 
-print("Done! Files ready for Cloud.")
+    df_lite = df[["title", "main_speaker", "description", "tags", "url"]].copy()
+
+    print("Saving optimized files...")
+    save_optimized_files(df_lite, tfidf_matrix)
+
+    print("Done! Files ready for Cloud.")
+
+
+if __name__ == "__main__":
+    main()
