@@ -53,8 +53,13 @@ def get_recommendations(title):
         return []
 
     idx = title_to_index[title]
-    sim_scores = list(enumerate(cosine_sim[idx]))
+
+    query_vector = linear_kernel(query_vector, tfidf_matrix).flatten()
+
+    sim_scores = list(enumerate(sim_scores))
+
     sim_scores = sorted(sim_scores, key=lambda x: x[1], reverse=True)
+
     sim_scores = sim_scores[1:6]
 
     talk_indices = [i[0] for i in sim_scores]
