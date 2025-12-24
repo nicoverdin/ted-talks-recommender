@@ -25,4 +25,4 @@ jobs:
         tags: ted-recommender:latest
 
     - name: Run Unit Tests
-      run: pytest
+      run: python -m pytest
