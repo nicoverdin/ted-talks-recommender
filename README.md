@@ -3,6 +3,7 @@
 ![Python](https://img.shields.io/badge/Python-3.9%2B-blue)
 ![Streamlit](https://img.shields.io/badge/Streamlit-App-ff4b4b)
 ![Status](https://img.shields.io/badge/Status-Completed-success)
+[![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://ted-talks-recommender.onrender.com/)
 
 A content-based recommendation engine that suggests TED Talks based on the semantic similarity of their transcripts.
 
@@ -20,13 +21,20 @@ Unlike collaborative filtering (which relies on user ratings), this system uses 
 
 ## 🧠 How it Works
 
-The core logic follows these engineering steps:
+## 🧠 Architecture & Optimization
 
-1.  **Data Ingestion:** Merges metadata (titles, authors) with transcripts.
-2.  **Preprocessing:** Cleans the raw text (lowercasing, removing punctuation/special characters, and filtering English stop words).
-3.  **Vectorization (TF-IDF):** * Uses *Term Frequency-Inverse Document Frequency* to evaluate the importance of a word in a document relative to the collection.
-    * Reduces the weight of common words and highlights unique keywords.
-4.  **Similarity Matrix:** Computes the **Cosine Similarity** between all pairs of talks ($O(n^2)$ complexity) to determine closeness in the vector space.
+To ensure high performance and low memory usage in production environments (like Render Free Tier), the project follows a **Split-Architecture** approach:
+
+1.  **Offline Batch Processing (`setup.py`):**
+    * Loads raw CSV data.
+    * Cleans and tokenizes text.
+    * **Pre-computes** the TF-IDF matrix locally.
+    * Exports lightweight artifacts (`.pkl`, `.npz`) containing only the mathematical vectors and necessary metadata.
+
+2.  **Online Inference Engine (`app.py`):**
+    * Loads the pre-computed sparse matrix (memory efficient).
+    * Performs **Cosine Similarity** calculations on-demand ($O(1 \times N)$ complexity) instead of calculating the full matrix ($O(N^2)$).
+    * Delivers sub-second recommendations without reprocessing text.
 
 ## 🛠️ Tech Stack
 
@@ -65,10 +73,13 @@ ted-talks-recommender/
     pip install -r requirements.txt
     ```
 
-4.  **Download Data:**
-    * Download the dataset from [Kaggle (TED Talks)](https://www.kaggle.com/datasets/rounakbanik/ted-talks).
-    * Create a folder named `data/` in the root directory.
-    * Place `ted_main.csv` and `transcripts.csv` inside that `data/` folder.
+4.  **Download Data & Pre-compute Vectors:**
+    * Download `ted_main.csv` and `transcripts.csv` from [Kaggle](https://www.kaggle.com/datasets/rounakbanik/ted-talks) into the `data/` folder.
+    * **Run the setup script to generate the models:**
+        ```bash
+        python setup.py
+        ```
+    * *This will create `ted_lite.pkl` and `tfidf_matrix.npz`.*
 
 5.  **Run the App:**
     ```bash
@@ -78,6 +89,7 @@ ted-talks-recommender/
 ### 🐳 Run with Docker (Recommended)
 
 You can run the application without installing Python or dependencies manually.
+*Note: The Docker image will automatically bundle the pre-computed vector models present in your repository.*
 
 1.  **Build the image:**
     ```bash
