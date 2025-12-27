@@ -59,7 +59,7 @@ ted-talks-recommender/
 
 1.  **Clone the repository:**
     ```bash
-    git clone [https://github.com/YOUR_USERNAME/ted-talks-recommender.git](https://github.com/YOUR_USERNAME/ted-talks-recommender.git)
+    git clone [https://github.com/nicoverdin/ted-talks-recommender.git](https://github.com/nicoverdin/ted-talks-recommender.git)
     cd ted-talks-recommender
     ```
 
